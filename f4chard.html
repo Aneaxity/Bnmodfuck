@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BN LAST KING HACK</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            color: white;
+        }
+
+        .spinner-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background: #222;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .spinner-menu button {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            background: #00aaff;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .header {
+            background: black;
+            padding: 20px;
+            text-align: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100px;
+            background: black;
+        }
+
+        h2 {
+            color: yellow;
+        }
+
+        .info {
+            background: #1f1f1f;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .big {
+            color: yellow;
+            font-weight: bold;
+        }
+
+        h3 {
+            color: yellow;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1f1f1f;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background: #00aaff;
+        }
+
+        .red-dot {
+            background-color: red;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .green-dot {
+            background-color: green;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .tg-button {
+            margin-top: 10px;
+            padding: 10px;
+            background: #0088cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="menu" onclick="toggleSpinner()">
+            <div class="menu-icon">&#9776;</div>
+        </div>
+        <div class="spinner-menu" id="spinner">
+            <button onclick="reloadPage()">Reload Page</button>
+            <button onclick="openOwnerLink()">Owner Link</button>
+        </div>
+
+        <div class="header">
+            <canvas id="graphCanvas"></canvas>
+        </div>
+
+        <h2>BN LAST KING HACK</h2>
+
+        <div class="info">
+            <p>Period Number: <span id="period">textview1</span></p>
+            <p>Timer: <span id="timer">textview2</span></p>
+            <p>Prediction: <span id="prediction" class="big">textview3</span></p>
+        </div>
+
+        <button class="tg-button" onclick="openTGLink()">TG Link</button>
+
+        <h3>Game History</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Number</th>
+                    <th>Big/Small</th>
+                    <th>Color</th>
+                </tr>
+            </thead>
+            <tbody id="history">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let lastPeriod = "";
+        let lastResult = null;
+
+        function updateGame() {
+            let now = new Date();
+            let timezoneOffset = now.getTimezoneOffset() * 60000;
+            let localTime = new Date(now.getTime() + timezoneOffset + (5.5 * 3600000));
+
+            let hours = localTime.getHours();
+            let minutes = localTime.getMinutes();
+            let seconds = localTime.getSeconds();
+            let remainingSeconds = 60 - seconds;
+
+            let startHour = 5;
+            let startMinute = 29;
+
+            let elapsedMinutes = (hours * 60 + minutes) - (startHour * 60 + startMinute);
+            if (elapsedMinutes < 0) elapsedMinutes = 0;
+
+            let dateString = localTime.toISOString().slice(0, 10).replace(/-/g, '');
+            let periodNumber = dateString + "100001" + String(elapsedMinutes).padStart(4, '0');
+
+            document.getElementById("period").innerText = periodNumber;
+            document.getElementById("timer").innerText = `00:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+
+            if (periodNumber !== lastPeriod) {
+                generateRandomResult(periodNumber);
+                lastPeriod = periodNumber;
+            }
+        }
+
+        function generateRandomResult(period) {
+            let results = [
+                { type: "BIG", number: 9 },
+                { type: "BIG", number: 8 },
+                { type: "SMALL", number: 0 },
+                { type: "SMALL", number: 1 },
+                { type: "BIG", number: 7 },
+                { type: "BIG", number: 6 },
+                { type: "SMALL", number: 2 },
+                { type: "SMALL", number: 3 },
+                { type: "BIG", number: 5 },
+                { type: "SMALL", number: 4 }
+            ];
+
+            lastResult = results[Math.floor(Math.random() * results.length)];
+            document.getElementById("prediction").innerText = `${lastResult.type} | ${lastResult.number}`;
+            updateHistory(period, lastResult);
+        }
+
+        function updateHistory(period, result) {
+            let historyTable = document.getElementById("history");
+
+            let newRow = document.createElement("tr");
+            newRow.innerHTML = `<td>${period}</td><td>${result.number}</td><td>${result.type}</td><td class="${result.number % 2 === 0 ? 'red-dot' : 'green-dot'}"></td>`;
+
+            if (historyTable.children.length >= 10) {
+                historyTable.removeChild(historyTable.lastChild);
+            }
+            historyTable.insertBefore(newRow, historyTable.firstChild);
+        }
+
+        function toggleSpinner() {
+            let spinner = document.getElementById("spinner");
+            spinner.style.display = spinner.style.display === "block" ? "none" : "block";
+        }
+
+        function reloadPage() { location.reload(); }
+        function openOwnerLink() { window.open("https://t.me/Aneaxity", "_blank"); }
+        function openTGLink() { window.open("https://t.me/+UXXqSylBcNZhMGM9", "_blank"); }
+
+        setInterval(updateGame, 1000);
+    </script>
+</body>
+</html>
